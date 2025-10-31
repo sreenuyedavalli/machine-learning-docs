@@ -2,6 +2,27 @@
 
 A curated collection of machine learning resources, tutorials, papers, and tools.
 
+## 🌟 Interactive Visualization
+
+<div align="center">
+  <a href="graph.html">
+    <img src="https://via.placeholder.com/600x400/f8f9fa/333333?text=🌟+Interactive+Sunburst+Visualization%0A%0AClick+to+view+interactive+graph" alt="ML Resources Visualization" />
+  </a>
+  <br>
+  <em>Click the image above to view the interactive sunburst visualization</em>
+</div>
+
+**Features:**
+- 🎯 **Interactive sunburst chart** showing all resources
+- 🎴 **Enhanced tooltips** with website previews
+- 🖱️ **Click to visit** any resource directly
+- 📊 **Visual hierarchy** of topics and subtopics
+- 🔄 **Auto-generated** from this README
+
+**Usage:** Open `graph.html` in your browser or run `python3 generate_graph.py` to update the visualization after adding new resources.
+
+---
+
 ## 📚 Learning Resources
 
 ### Fundamentals
@@ -45,6 +66,9 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 - [Common Crawl](https://commoncrawl.org/) - Web crawl data
 - [OpenAI GPT Datasets](https://github.com/openai/gpt-2) - Language modeling datasets
 - [Hugging Face Datasets](https://huggingface.co/datasets) - NLP datasets collection
+
+### Audio
+- [40 Open Source Audio Datasets for ML](https://towardsdatascience.com/40-open-source-audio-datasets-for-ml-59dc39d48f06/) - Comprehensive collection of audio datasets for machine learning
 
 ## 📖 Research Papers
 
