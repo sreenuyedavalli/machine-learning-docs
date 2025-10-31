@@ -4,13 +4,7 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 
 ## 🌟 Interactive Visualization
 
-<div align="center">
-  
 **[📊 View Interactive Sunburst Visualization](https://sreenuyedavalli.github.io/machine-learning-docs/graph.html)**
-
-![ML Resources Preview](https://via.placeholder.com/600x300/f8f9fa/333333?text=🌟+Interactive+ML+Resources+Sunburst%0A%0A📚+Learning+Resources+•+🛠️+Tools+%26+Frameworks%0A📊+Datasets+•+📖+Research+Papers%0A🎯+Specialized+Topics+•+📰+News+%26+Blogs%0A%0A46+Curated+Resources%0A%0AClick+link+above+to+view+interactive+chart)
-
-</div>
 
 **Features:**
 - 🎯 **Interactive sunburst chart** showing all resources
@@ -129,4 +123,4 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 
 This is a curated list that will be regularly updated. Feel free to suggest additions or improvements.
 
-**Last Updated:** October 2024
+**Last Updated:** October 2025
