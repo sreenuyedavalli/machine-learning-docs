@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ML Resources Sunburst</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f8f9fa;
+        }
+        #graph { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 600px;
+        }
+        .arc { cursor: pointer; }
+        .arc:hover { opacity: 0.8; }
+        .center-text {
+            text-anchor: middle;
+            font-size: 14px;
+            font-weight: bold;
+            fill: #333;
+        }
+        .tooltip {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 0;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 300px;
+            z-index: 1000;
+        }
+        .tooltip-header {
+            background: #f8f9fa;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            border-radius: 8px 8px 0 0;
+        }
+        .tooltip-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        .tooltip-url {
+            color: #007bff;
+            font-size: 10px;
+            word-break: break-all;
+        }
+        .tooltip-preview {
+            padding: 10px;
+        }
+        .tooltip-iframe {
+            width: 280px;
+            height: 150px;
+            border: none;
+            border-radius: 4px;
+            background: #f8f9fa;
+        }
+        .tooltip-description {
+            margin-top: 8px;
+            color: #666;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        .tooltip-click {
+            background: #e3f2fd;
+            padding: 6px 10px;
+            border-radius: 0 0 8px 8px;
+            text-align: center;
+            color: #1976d2;
+            font-size: 10px;
+        }
+        h1 { text-align: center; color: #333; }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌟 Machine Learning Resources</h1>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff6b6b;"></div>
+            <span>Learning Resources</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #4ecdc4;"></div>
+            <span>Tools & Frameworks</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #45b7d1;"></div>
+            <span>Datasets</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #96ceb4;"></div>
+            <span>Research Papers</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #feca57;"></div>
+            <span>Specialized Topics</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background: #ff9ff3;"></div>
+            <span>News & Blogs</span>
+        </div>
+    </div>
+    
+    <div id="graph"></div>
+    <div class="tooltip"></div>
+    
+    <script>
+        const data = {
+            "name": "ML Resources",
+            "children": [
+                {
+                    "name": "📚 Learning Resources",
+                    "children": [
+                        {
+                            "name": "Fundamentals",
+                            "children": [
+                                {
+                                    "name": "IBM Think: ML",
+                                    "url": "https://www.ibm.com/think/machine-learning#605511093"
+                                },
+                                {
+                                    "name": "Andrew Ng Course",
+                                    "url": "https://www.coursera.org/learn/machine-learning"
+                                },
+                                {
+                                    "name": "Fast.ai",
+                                    "url": "https://course.fast.ai/"
+                                },
+                                {
+                                    "name": "MIT 6.034 AI",
+                                    "url": "https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-034-artificial-intelligence-fall-2010/"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Mathematics for ML",
+                            "children": [
+                                {
+                                    "name": "MML Book",
+                                    "url": "https://mml-book.github.io/"
+                                },
+                                {
+                                    "name": "3Blue1Brown",
+                                    "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab"
+                                },
+                                {
+                                    "name": "Khan Academy",
+                                    "url": "https://www.khanacademy.org/math/statistics-probability"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "🛠️ Tools & Frameworks",
+                    "children": [
+                        {
+                            "name": "Python Libraries",
+                            "children": [
+                                {
+                                    "name": "scikit-learn",
+                                    "url": "https://scikit-learn.org/"
+                                },
+                                {
+                                    "name": "TensorFlow",
+                                    "url": "https://www.tensorflow.org/"
+                                },
+                                {
+                                    "name": "PyTorch",
+                                    "url": "https://pytorch.org/"
+                                },
+                                {
+                                    "name": "Pandas",
+                                    "url": "https://pandas.pydata.org/"
+                                },
+                                {
+                                    "name": "NumPy",
+                                    "url": "https://numpy.org/"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Development Environments",
+                            "children": [
+                                {
+                                    "name": "Google Colab",
+                                    "url": "https://colab.research.google.com/"
+                                },
+                                {
+                                    "name": "Jupyter",
+                                    "url": "https://jupyter.org/"
+                                },
+                                {
+                                    "name": "Kaggle Kernels",
+                                    "url": "https://www.kaggle.com/kernels"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "📊 Datasets",
+                    "children": [
+                        {
+                            "name": "General Purpose",
+                            "children": [
+                                {
+                                    "name": "Kaggle Datasets",
+                                    "url": "https://www.kaggle.com/datasets"
+                                },
+                                {
+                                    "name": "UCI ML Repository",
+                                    "url": "https://archive.ics.uci.edu/ml/index.php"
+                                },
+                                {
+                                    "name": "Google Dataset Search",
+                                    "url": "https://datasetsearch.research.google.com/"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Computer Vision",
+                            "children": [
+                                {
+                                    "name": "ImageNet",
+                                    "url": "http://www.image-net.org/"
+                                },
+                                {
+                                    "name": "COCO Dataset",
+                                    "url": "https://cocodataset.org/"
+                                },
+                                {
+                                    "name": "MNIST",
+                                    "url": "http://yann.lecun.com/exdb/mnist/"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Natural Language Processing",
+                            "children": [
+                                {
+                                    "name": "Common Crawl",
+                                    "url": "https://commoncrawl.org/"
+                                },
+                                {
+                                    "name": "OpenAI GPT Datasets",
+                                    "url": "https://github.com/openai/gpt-2"
+                                },
+                                {
+                                    "name": "Hugging Face Datasets",
+                                    "url": "https://huggingface.co/datasets"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "📖 Research Papers",
+                    "children": [
+                        {
+                            "name": "Foundational Papers",
+                            "children": [
+                                {
+                                    "name": "Attention Is All You Need",
+                                    "url": "https://arxiv.org/abs/1706.03762"
+                                },
+                                {
+                                    "name": "Deep Residual Learning",
+                                    "url": "https://arxiv.org/abs/1512.03385"
+                                },
+                                {
+                                    "name": "Generative Adversarial Networks",
+                                    "url": "https://arxiv.org/abs/1406.2661"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Paper Repositories",
+                            "children": [
+                                {
+                                    "name": "arXiv.org",
+                                    "url": "https://arxiv.org/"
+                                },
+                                {
+                                    "name": "Papers With Code",
+                                    "url": "https://paperswithcode.com/"
+                                },
+                                {
+                                    "name": "Google Scholar",
+                                    "url": "https://scholar.google.com/"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "🎯 Specialized Topics",
+                    "children": [
+                        {
+                            "name": "Computer Vision",
+                            "children": [
+                                {
+                                    "name": "OpenCV",
+                                    "url": "https://opencv.org/"
+                                },
+                                {
+                                    "name": "YOLO",
+                                    "url": "https://pjreddie.com/darknet/yolo/"
+                                },
+                                {
+                                    "name": "Detectron2",
+                                    "url": "https://github.com/facebookresearch/detectron2"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Natural Language Processing",
+                            "children": [
+                                {
+                                    "name": "spaCy",
+                                    "url": "https://spacy.io/"
+                                },
+                                {
+                                    "name": "NLTK",
+                                    "url": "https://www.nltk.org/"
+                                },
+                                {
+                                    "name": "Hugging Face Transformers",
+                                    "url": "https://huggingface.co/transformers/"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Reinforcement Learning",
+                            "children": [
+                                {
+                                    "name": "OpenAI Gym",
+                                    "url": "https://gym.openai.com/"
+                                },
+                                {
+                                    "name": "Stable Baselines3",
+                                    "url": "https://stable-baselines3.readthedocs.io/"
+                                },
+                                {
+                                    "name": "DeepMind Lab",
+                                    "url": "https://github.com/deepmind/lab"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "📰 News & Blogs",
+                    "children": [
+                        {
+                            "name": "Blogs",
+                            "children": [
+                                {
+                                    "name": "Towards Data Science",
+                                    "url": "https://towardsdatascience.com/"
+                                },
+                                {
+                                    "name": "Distill",
+                                    "url": "https://distill.pub/"
+                                },
+                                {
+                                    "name": "OpenAI Blog",
+                                    "url": "https://openai.com/blog/"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "News",
+                            "children": [
+                                {
+                                    "name": "AI News",
+                                    "url": "https://artificialintelligence-news.com/"
+                                },
+                                {
+                                    "name": "VentureBeat AI",
+                                    "url": "https://venturebeat.com/ai/"
+                                },
+                                {
+                                    "name": "The Batch",
+                                    "url": "https://www.deeplearning.ai/the-batch/"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Set up dimensions
+        const width = 600;
+        const height = 600;
+        const radius = Math.min(width, height) / 2;
+
+        // Color scale for main categories
+        const color = d3.scaleOrdinal()
+            .domain(data.children.map(d => d.name))
+            .range(['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3']);
+
+        // Create SVG
+        const svg = d3.select("#graph")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width/2},${height/2})`);
+
+        // Create tooltip
+        const tooltip = d3.select(".tooltip");
+
+        // Create partition layout
+        const partition = d3.partition()
+            .size([2 * Math.PI, radius]);
+
+        // Create arc generator
+        const arc = d3.arc()
+            .startAngle(d => d.x0)
+            .endAngle(d => d.x1)
+            .innerRadius(d => d.y0)
+            .outerRadius(d => d.y1);
+
+        // Process data
+        const root = d3.hierarchy(data)
+            .sum(d => d.url ? 1 : 0)
+            .sort((a, b) => b.value - a.value);
+
+        partition(root);
+
+        // Create arcs
+        svg.selectAll("path")
+            .data(root.descendants())
+            .enter().append("path")
+            .attr("class", "arc")
+            .attr("d", arc)
+            .style("fill", d => {
+                if (d.depth === 0) return "#fff";
+                if (d.depth === 1) return color(d.data.name);
+                if (d.depth === 2) return d3.color(color(d.parent.data.name)).darker(0.3);
+                return d3.color(color(d.parent.parent.data.name)).darker(0.6);
+            })
+            .style("stroke", "#fff")
+            .style("stroke-width", 2)
+            .on("mouseover", function(event, d) {
+                if (d.depth > 0) {
+                    const tooltipContent = createTooltipContent(d);
+                    tooltip.html(tooltipContent)
+                        .style("opacity", 1)
+                        .style("left", (event.pageX + 15) + "px")
+                        .style("top", (event.pageY - 10) + "px");
+                }
+            })
+            .on("mouseout", function() {
+                tooltip.style("opacity", 0);
+            })
+            .on("click", function(event, d) {
+                if (d.data.url) {
+                    window.open(d.data.url, '_blank');
+                }
+            });
+
+        // Add center text
+        svg.append("text")
+            .attr("class", "center-text")
+            .attr("dy", "0.35em")
+            .text("ML Resources")
+            .style("font-size", "16px");
+
+        // Add resource count
+        svg.append("text")
+            .attr("class", "center-text")
+            .attr("dy", "1.5em")
+            .text(`${root.value} resources`)
+            .style("font-size", "12px")
+            .style("fill", "#666");
+
+        // Add text labels for all categories and resources
+        svg.selectAll(".arc-label")
+            .data(root.descendants().filter(d => d.depth > 0))
+            .enter().append("text")
+            .attr("class", "arc-label")
+            .attr("transform", function(d) {
+                const angle = (d.x0 + d.x1) / 2;
+                const radius = (d.y0 + d.y1) / 2;
+                const x = Math.sin(angle) * radius;
+                const y = -Math.cos(angle) * radius;
+                const rotation = angle * 180 / Math.PI - 90;
+                
+                // Adjust rotation for readability
+                const adjustedRotation = rotation > 90 ? rotation + 180 : rotation;
+                
+                return `translate(${x},${y}) rotate(${adjustedRotation})`;
+            })
+            .style("text-anchor", "middle")
+            .style("dominant-baseline", "middle")
+            .style("font-size", d => {
+                if (d.depth === 1) return "11px";
+                if (d.depth === 2) return "9px";
+                return "7px";
+            })
+            .style("font-weight", d => d.depth === 1 ? "bold" : "normal")
+            .style("fill", d => {
+                if (d.depth === 1) return "white";
+                if (d.depth === 2) return "white";
+                return "#333";
+            })
+            .style("pointer-events", "none")
+            .text(d => {
+                // Remove emoji and clean text
+                let text = d.data.name.replace(/📚|🛠️|📊|📖|🎯|📰/g, '').trim();
+                
+                // Calculate available arc length for text
+                const arcLength = (d.x1 - d.x0) * (d.y0 + d.y1) / 2;
+                const fontSize = d.depth === 1 ? 11 : d.depth === 2 ? 9 : 7;
+                const maxChars = Math.floor(arcLength / (fontSize * 0.6));
+                
+                // Only show text if arc is large enough
+                if (arcLength < 30 || maxChars < 3) return "";
+                
+                if (text.length > maxChars) {
+                    text = text.substring(0, maxChars - 3) + "...";
+                }
+                
+                return text;
+            });
+
+        // Function to create enhanced tooltip content
+        function createTooltipContent(d) {
+            if (d.data.url) {
+                const domain = new URL(d.data.url).hostname;
+                const description = getResourceDescription(d.data.name, domain);
+                
+                return `
+                    <div class="tooltip-header">
+                        <div class="tooltip-title">${d.data.name}</div>
+                        <div class="tooltip-url">${domain}</div>
+                    </div>
+                    <div class="tooltip-preview">
+                        <iframe class="tooltip-iframe" src="https://api.microlink.io/?url=${encodeURIComponent(d.data.url)}&screenshot=true&meta=false&embed=screenshot.url" 
+                                onload="this.style.display='block'" 
+                                onerror="this.style.display='none'"></iframe>
+                        <div class="tooltip-description">${description}</div>
+                    </div>
+                    <div class="tooltip-click">Click to visit resource</div>
+                `;
+            } else {
+                return `
+                    <div class="tooltip-header">
+                        <div class="tooltip-title">${d.data.name}</div>
+                    </div>
+                    <div class="tooltip-preview">
+                        <div class="tooltip-description">Contains ${d.value} resources</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Function to get resource descriptions
+        function getResourceDescription(name, domain) {
+            const descriptions = {
+                'IBM Think: ML': 'Comprehensive guide to machine learning concepts, applications, and IBM Watson services.',
+                'Andrew Ng Course': 'Stanford\'s foundational machine learning course covering algorithms and practical applications.',
+                'Fast.ai': 'Practical deep learning course focused on real-world applications and coding.',
+                'MIT 6.034 AI': 'MIT\'s comprehensive artificial intelligence course covering fundamentals and advanced topics.',
+                'scikit-learn': 'Simple and efficient tools for predictive data analysis built on NumPy, SciPy, and matplotlib.',
+                'TensorFlow': 'End-to-end open source platform for machine learning with comprehensive ecosystem.',
+                'PyTorch': 'Open source machine learning framework that accelerates the path from research to production.',
+                'Kaggle Datasets': 'Community platform with thousands of datasets for machine learning projects.',
+                'arXiv.org': 'Repository of electronic preprints of scientific papers in various fields including ML.',
+                'Papers With Code': 'Free resource with machine learning papers, code, and evaluation tables.'
+            };
+            
+            return descriptions[name] || `Resource from ${domain} - Click to explore this machine learning resource.`;
+        }
+    </script>
+</body>
+</html>
