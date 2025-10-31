@@ -5,11 +5,11 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 ## 🌟 Interactive Visualization
 
 <div align="center">
-  <a href="graph.html">
-    <img src="https://via.placeholder.com/600x400/f8f9fa/333333?text=🌟+Interactive+Sunburst+Visualization%0A%0AClick+to+view+interactive+graph" alt="ML Resources Visualization" />
-  </a>
-  <br>
-  <em>Click the image above to view the interactive sunburst visualization</em>
+  
+**[📊 View Interactive Sunburst Visualization](https://sreenuyedavalli.github.io/machine-learning-docs/graph.html)**
+
+![ML Resources Preview](https://via.placeholder.com/600x300/f8f9fa/333333?text=🌟+Interactive+ML+Resources+Sunburst%0A%0A📚+Learning+Resources+•+🛠️+Tools+%26+Frameworks%0A📊+Datasets+•+📖+Research+Papers%0A🎯+Specialized+Topics+•+📰+News+%26+Blogs%0A%0A46+Curated+Resources%0A%0AClick+link+above+to+view+interactive+chart)
+
 </div>
 
 **Features:**
@@ -19,7 +19,7 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 - 📊 **Visual hierarchy** of topics and subtopics
 - 🔄 **Auto-generated** from this README
 
-**Usage:** Open `graph.html` in your browser or run `python3 generate_graph.py` to update the visualization after adding new resources.
+**Local Usage:** Open `graph.html` in your browser or run `python3 generate_graph.py` to update the visualization after adding new resources.
 
 ---
 

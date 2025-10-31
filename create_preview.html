@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ML Resources Preview</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .arc { cursor: pointer; }
+        .arc:hover { opacity: 0.8; }
+        .center-text {
+            text-anchor: middle;
+            font-size: 14px;
+            font-weight: bold;
+            fill: #333;
+        }
+        .arc-label {
+            text-anchor: middle;
+            dominant-baseline: middle;
+            pointer-events: none;
+        }
+        h1 { color: #333; margin-bottom: 10px; }
+        .subtitle { color: #666; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 ML Resources Visualization</h1>
+        <p class="subtitle">Interactive sunburst chart with 45+ curated resources</p>
+        <div id="graph"></div>
+        <p style="margin-top: 20px; color: #666; font-size: 12px;">
+            Hover over sections for details • Click to visit resources
+        </p>
+    </div>
+    
+    <script>
+        // Simplified data for preview
+        const data = {
+            "name": "ML Resources",
+            "children": [
+                { "name": "Learning Resources", "value": 7 },
+                { "name": "Tools & Frameworks", "value": 8 },
+                { "name": "Datasets", "value": 9 },
+                { "name": "Research Papers", "value": 6 },
+                { "name": "Specialized Topics", "value": 9 },
+                { "name": "News & Blogs", "value": 6 }
+            ]
+        };
+
+        const width = 400;
+        const height = 400;
+        const radius = Math.min(width, height) / 2;
+
+        const color = d3.scaleOrdinal()
+            .range(['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3']);
+
+        const svg = d3.select("#graph")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width/2},${height/2})`);
+
+        const pie = d3.pie()
+            .value(d => d.value)
+            .sort(null);
+
+        const arc = d3.arc()
+            .innerRadius(radius * 0.4)
+            .outerRadius(radius * 0.8);
+
+        const arcs = svg.selectAll(".arc")
+            .data(pie(data.children))
+            .enter().append("g")
+            .attr("class", "arc");
+
+        arcs.append("path")
+            .attr("d", arc)
+            .style("fill", d => color(d.data.name))
+            .style("stroke", "#fff")
+            .style("stroke-width", 2);
+
+        arcs.append("text")
+            .attr("transform", d => `translate(${arc.centroid(d)})`)
+            .style("text-anchor", "middle")
+            .style("font-size", "10px")
+            .style("font-weight", "bold")
+            .style("fill", "white")
+            .text(d => d.data.name.split(' ')[0]);
+
+        svg.append("text")
+            .attr("class", "center-text")
+            .attr("dy", "0.35em")
+            .text("ML Resources")
+            .style("font-size", "16px");
+
+        svg.append("text")
+            .attr("class", "center-text")
+            .attr("dy", "1.5em")
+            .text("45 resources")
+            .style("font-size", "12px")
+            .style("fill", "#666");
+    </script>
+</body>
+</html>
