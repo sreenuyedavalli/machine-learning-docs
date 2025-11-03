@@ -22,6 +22,21 @@
             min-height: 600px;
             margin-top: 20px;
         }
+        .graphs-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 40px;
+            margin: 20px 0;
+        }
+        .graph-section {
+            flex: 1;
+            text-align: center;
+        }
+        .graph-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
         .arc { cursor: pointer; }
         .arc:hover { opacity: 0.8; }
         .center-text {
@@ -105,6 +120,13 @@
 <body>
     <h1>🌟 Machine Learning Resources</h1>
     
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="https://github.com/sreenuyedavalli/machine-learning-docs" 
+           style="display: inline-block; padding: 8px 16px; background: #333; color: white; text-decoration: none; border-radius: 5px; font-size: 14px;">
+            📚 View GitHub Repository
+        </a>
+    </div>
+    
     <div class="legend">
         <div class="legend-item">
             <div class="legend-color" style="background: #ff6b6b;"></div>
@@ -132,11 +154,18 @@
         </div>
     </div>
     
-    <div id="graph"></div>
-    <div class="tooltip"></div>
+    <div class="graphs-container">
+        <div class="graph-section">
+            <h2>🫧 Bubble Chart View</h2>
+            <div id="bubble-graph"></div>
+        </div>
+        <div class="graph-section">
+            <h2>🌟 Sunburst View</h2>
+            <div id="graph"></div>
+        </div>
+    </div>
     
-    <h2 style="text-align: center; color: #333; margin-top: 50px;">🫧 Bubble Chart View</h2>
-    <div id="bubble-graph"></div>
+    <div class="tooltip"></div>
     
     <script>
         const data = {
@@ -435,8 +464,8 @@
 };
 
         // Set up dimensions
-        const width = 600;
-        const height = 600;
+        const width = 500;
+        const height = 500;
         const radius = Math.min(width, height) / 2;
 
         // Color scale for main categories
@@ -622,8 +651,8 @@
         // ===== BUBBLE CHART IMPLEMENTATION =====
         
         // Create bubble chart
-        const bubbleWidth = 800;
-        const bubbleHeight = 600;
+        const bubbleWidth = 500;
+        const bubbleHeight = 500;
 
         const bubbleSvg = d3.select("#bubble-graph")
             .append("svg")
