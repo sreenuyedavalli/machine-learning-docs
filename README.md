@@ -90,7 +90,7 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 - [Hugging Face Transformers](https://huggingface.co/transformers/) - State-of-the-art NLP models
 
 ### Reinforcement Learning
-- [OpenAI Gym](https://gym.openai.com/) - Toolkit for RL algorithm development
+- [Stanford AI Lab](https://ai.stanford.edu/blog/rl/) - Reinforcement Learning Posts
 - [Stable Baselines3](https://stable-baselines3.readthedocs.io/) - Reliable RL implementations
 - [DeepMind Lab](https://github.com/deepmind/lab) - 3D learning environment
 
