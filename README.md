@@ -24,6 +24,7 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 - [Machine Learning Course by Andrew Ng](https://www.coursera.org/learn/machine-learning) - Stanford's foundational ML course
 - [Fast.ai Practical Deep Learning](https://course.fast.ai/) - Hands-on deep learning for coders
 - [MIT 6.034 Artificial Intelligence](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-034-artificial-intelligence-fall-2010/) - MIT's AI fundamentals
+- [5-Day Gen AI Intensive Course with Google](https://www.kaggle.com/learn-guide/5-day-genai) - 5-Day AI Agents Intensive course with Google
 
 ### Mathematics for ML
 - [Mathematics for Machine Learning](https://mml-book.github.io/) - Free online book covering linear algebra, calculus, and probability
