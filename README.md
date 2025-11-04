@@ -63,6 +63,7 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 
 ### Audio
 - [40 Open Source Audio Datasets for ML](https://towardsdatascience.com/40-open-source-audio-datasets-for-ml-59dc39d48f06/) - Comprehensive collection of audio datasets for machine learning
+- [Building An AI-Empowered Music Library with TensorFlow](https://blog.tensorflow.org/2020/01/building-ai-empowered-music-library-tensorflow.html) - A guest post by Tencent QQ Music Audio Engineering Team
 
 ## 📖 Research Papers
 
@@ -105,6 +106,7 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 - [Towards Data Science](https://towardsdatascience.com/) - Medium publication on data science
 - [Distill](https://distill.pub/) - Visual explanations of ML concepts
 - [OpenAI Blog](https://openai.com/blog/) - Latest from OpenAI research
+- [TensorFlow Blog] (https://blog.tensorflow.org/)
 
 ### News
 - [AI News](https://artificialintelligence-news.com/) - AI industry news
