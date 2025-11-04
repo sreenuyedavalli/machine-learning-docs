@@ -7,8 +7,8 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 **[📊 View Visualization](https://sreenuyedavalli.github.io/machine-learning-docs/graph.html)**
 
 **Features:**
-- 🎯 **Interactive sunburst chart** showing all resources
-- 🎴 **Enhanced tooltips** with website previews
+- 🎯 **Visualization Charts** showing all resources
+- 🎴 **Tooltips** with website previews
 - 🖱️ **Click to visit** any resource directly
 - 📊 **Visual hierarchy** of topics and subtopics
 - 🔄 **Auto-generated** from this README
