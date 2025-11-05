@@ -107,7 +107,8 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 - [Towards Data Science](https://towardsdatascience.com/) - Medium publication on data science
 - [Distill](https://distill.pub/) - Visual explanations of ML concepts
 - [OpenAI Blog](https://openai.com/blog/) - Latest from OpenAI research
-- [TensorFlow Blog] (https://blog.tensorflow.org/)
+- [TensorFlow Blog](https://blog.tensorflow.org/) - An end-to-end platform for machine learning
+- [AWS Machine Learning Blog](https://aws.amazon.com/blogs/machine-learning/) - AWS Artificial Intelligence Blog
 
 ### News
 - [AI News](https://artificialintelligence-news.com/) - AI industry news
