@@ -53,7 +53,7 @@ def test_d3_integration(filepath):
             content = f.read()
         
         # Check for D3.js script
-        if not re.search(r'd3\.js', content):
+        if not re.search(r'd3js\.org|d3\.v\d+\.min\.js', content):
             print(f"❌ {filepath} missing D3.js script")
             return False
         
