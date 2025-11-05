@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   update-graph:
@@ -20,6 +21,8 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        # For PRs, checkout the PR branch
+        ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
     
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -38,11 +41,23 @@ jobs:
           echo "changed=false" >> $GITHUB_OUTPUT
         fi
     
-    - name: Commit updated graph
-      if: steps.verify-changed-files.outputs.changed == 'true'
+    - name: Commit updated graph (Push to main)
+      if: github.event_name == 'push' && steps.verify-changed-files.outputs.changed == 'true'
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add graph.html
         git commit -m "Auto-update graph visualization from README changes"
         git push
+    
+    - name: Commit updated graph (PR)
+      if: github.event_name == 'pull_request' && steps.verify-changed-files.outputs.changed == 'true'
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add graph.html
+        git commit -m "Auto-update graph visualization from README changes"
+        git push origin HEAD:${{ github.head_ref }}
+    
+    - name: Status check complete
+      run: echo "Graph update check completed successfully"
