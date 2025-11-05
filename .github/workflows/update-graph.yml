@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  update-graph:
+  test-and-update:
     runs-on: ubuntu-latest
     
     steps:
@@ -25,6 +25,11 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
+    
+    - name: Run HTML rendering tests
+      run: |
+        chmod +x test_html.py
+        python3 test_html.py
     
     - name: Check if README changed
       id: readme-changed
@@ -42,6 +47,52 @@ jobs:
     - name: Run graph generator
       if: steps.readme-changed.outputs.readme_changed == 'true'
       run: python3 generate_graph.py
+    
+    - name: Test updated graph.html
+      if: steps.readme-changed.outputs.readme_changed == 'true'
+      run: |
+        echo "🧪 Testing updated graph.html..."
+        python3 -c "
+import re
+with open('graph.html', 'r') as f:
+    content = f.read()
+    
+# Test D3 data structure
+if not re.search(r'const data = \{.*?\};', content, re.DOTALL):
+    print('❌ Invalid data structure in graph.html')
+    exit(1)
+
+# Test both visualizations present
+if not re.search(r'sunburst|partition', content, re.IGNORECASE):
+    print('❌ Missing sunburst visualization')
+    exit(1)
+    
+if not re.search(r'bubble|pack', content, re.IGNORECASE):
+    print('❌ Missing bubble visualization')
+    exit(1)
+
+print('✅ graph.html structure is valid')
+"
+    
+    - name: Test index.html accessibility
+      run: |
+        echo "🧪 Testing index.html..."
+        python3 -c "
+import re
+with open('index.html', 'r') as f:
+    content = f.read()
+    
+# Test for required elements
+if not re.search(r'graph\.html', content):
+    print('❌ index.html missing link to graph.html')
+    exit(1)
+    
+if not re.search(r'github\.com.*machine-learning-docs', content):
+    print('❌ index.html missing GitHub repo link')
+    exit(1)
+
+print('✅ index.html structure is valid')
+"
     
     - name: Check for graph changes
       if: steps.readme-changed.outputs.readme_changed == 'true'
@@ -68,6 +119,6 @@ jobs:
     
     - name: Complete status check
       run: |
-        echo "✅ Graph visualization check completed"
+        echo "✅ All tests passed and graph visualization check completed"
         echo "README changed: ${{ steps.readme-changed.outputs.readme_changed }}"
         echo "Graph updated: ${{ steps.verify-changed-files.outputs.changed || 'false' }}"
