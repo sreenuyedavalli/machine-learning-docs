@@ -3,16 +3,15 @@ name: Update Graph Visualization
 on:
   push:
     branches: [ main ]
-    paths: [ 'README.md' ]
   pull_request:
     branches: [ main ]
-    paths: [ 'README.md' ]
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
-  update-graph:
+  test-and-update:
     runs-on: ubuntu-latest
     
     steps:
@@ -20,29 +19,106 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
     
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
     
+    - name: Run HTML rendering tests
+      run: |
+        chmod +x test_html.py
+        python3 test_html.py
+    
+    - name: Check if README changed
+      id: readme-changed
+      run: |
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          if git diff --name-only origin/${{ github.base_ref }}..HEAD | grep -q "README.md"; then
+            echo "readme_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "readme_changed=false" >> $GITHUB_OUTPUT
+          fi
+        else
+          echo "readme_changed=true" >> $GITHUB_OUTPUT
+        fi
+    
     - name: Run graph generator
+      if: steps.readme-changed.outputs.readme_changed == 'true'
       run: python3 generate_graph.py
     
-    - name: Check for changes
+    - name: Test updated graph.html
+      if: steps.readme-changed.outputs.readme_changed == 'true'
+      run: |
+        echo "🧪 Testing updated graph.html..."
+        python3 -c "
+        import re
+        with open('graph.html', 'r') as f:
+            content = f.read()
+            
+        # Test D3 data structure
+        if not re.search(r'const data = \{.*?\};', content, re.DOTALL):
+            print('❌ Invalid data structure in graph.html')
+            exit(1)
+
+        # Test both visualizations present
+        if not re.search(r'sunburst|partition', content, re.IGNORECASE):
+            print('❌ Missing sunburst visualization')
+            exit(1)
+            
+        if not re.search(r'bubble|pack', content, re.IGNORECASE):
+            print('❌ Missing bubble visualization')
+            exit(1)
+
+        print('✅ graph.html structure is valid')
+        "
+    
+    - name: Test index.html accessibility
+      run: |
+        echo "🧪 Testing index.html..."
+        python3 -c "
+        import re
+        with open('index.html', 'r') as f:
+            content = f.read()
+            
+        # Test for required elements
+        if not re.search(r'graph\.html', content):
+            print('❌ index.html missing link to graph.html')
+            exit(1)
+            
+        if not re.search(r'github\.com.*machine-learning-docs', content):
+            print('❌ index.html missing GitHub repo link')
+            exit(1)
+
+        print('✅ index.html structure is valid')
+        "
+    
+    - name: Check for graph changes
+      if: steps.readme-changed.outputs.readme_changed == 'true'
       id: verify-changed-files
       run: |
-        if [ -n "$(git status --porcelain)" ]; then
+        if [ -n "$(git status --porcelain graph.html)" ]; then
           echo "changed=true" >> $GITHUB_OUTPUT
         else
           echo "changed=false" >> $GITHUB_OUTPUT
         fi
     
     - name: Commit updated graph
-      if: steps.verify-changed-files.outputs.changed == 'true'
+      if: steps.readme-changed.outputs.readme_changed == 'true' && steps.verify-changed-files.outputs.changed == 'true'
       run: |
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add graph.html
-        git commit -m "Auto-update graph visualization from README changes"
-        git push
+        git commit -m "Auto-update graph visualization"
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          git push origin HEAD:${{ github.head_ref }}
+        else
+          git push
+        fi
+    
+    - name: Complete status check
+      run: |
+        echo "✅ All tests passed and graph visualization check completed"
+        echo "README changed: ${{ steps.readme-changed.outputs.readme_changed }}"
+        echo "Graph updated: ${{ steps.verify-changed-files.outputs.changed || 'false' }}"
