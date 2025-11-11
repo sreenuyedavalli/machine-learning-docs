@@ -127,4 +127,4 @@ A curated collection of machine learning resources, tutorials, papers, and tools
 
 This is a curated list that will be regularly updated. Feel free to suggest additions or improvements.
 
-**Last Updated:** October 2025
+**Last Updated:** November 2025
